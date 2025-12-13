@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO アプリ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 TODO アプリ</h1>
+        </header>
+
+        <div class="add-task-form">
+            <input type="text" id="taskInput" placeholder="タスクを入力してください..." />
+
+            <div class="form-controls">
+                <div class="form-group">
+                    <label for="prioritySelect">優先度:</label>
+                    <select id="prioritySelect">
+                        <option value="low">低</option>
+                        <option value="medium" selected>中</option>
+                        <option value="high">高</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dueDateInput">期限:</label>
+                    <input type="date" id="dueDateInput" />
+                </div>
+
+                <button id="addTaskBtn" class="btn btn-primary">追加</button>
+            </div>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">すべて</button>
+            <button class="filter-btn" data-filter="active">未完了</button>
+            <button class="filter-btn" data-filter="completed">完了</button>
+            <button class="filter-btn" data-filter="high">高優先度</button>
+        </div>
+
+        <ul id="taskList" class="task-list">
+        </ul>
+
+        <div class="stats">
+            <span id="taskStats">タスク: 0個</span>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

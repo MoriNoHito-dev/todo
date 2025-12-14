@@ -1,6 +1,9 @@
 // アプリの状態管理
 let tasks = [];
-let currentFilter = 'all';
+let filterState = {
+    status: 'all',
+    priorities: new Set(['high', 'medium', 'low'])
+};
 
 // DOM要素の取得
 const taskInput = document.getElementById('taskInput');
@@ -8,7 +11,8 @@ const prioritySelect = document.getElementById('prioritySelect');
 const dueDateInput = document.getElementById('dueDateInput');
 const addTaskBtn = document.getElementById('addTaskBtn');
 const taskList = document.getElementById('taskList');
-const filterBtns = document.querySelectorAll('.filter-btn');
+const statusFilterBtns = document.querySelectorAll('[data-status]');
+const priorityFilterBtns = document.querySelectorAll('[data-priority]');
 const taskStats = document.getElementById('taskStats');
 
 // 初期化
@@ -137,26 +141,45 @@ function renderTasks() {
 }
 
 // フィルタリング
-filterBtns.forEach(btn => {
+statusFilterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
+        statusFilterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        currentFilter = btn.dataset.filter;
+        filterState.status = btn.dataset.status;
+        renderTasks();
+    });
+});
+
+priorityFilterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+
+        const activePriorities = Array.from(priorityFilterBtns)
+            .filter(button => button.classList.contains('active'))
+            .map(button => button.dataset.priority);
+
+        // 少なくとも1つは選択された状態を維持
+        if (activePriorities.length === 0) {
+            btn.classList.add('active');
+            return;
+        }
+
+        filterState.priorities = new Set(activePriorities);
         renderTasks();
     });
 });
 
 function getFilteredTasks() {
-    switch (currentFilter) {
-        case 'active':
-            return tasks.filter(task => !task.completed);
-        case 'completed':
-            return tasks.filter(task => task.completed);
-        case 'high':
-            return tasks.filter(task => task.priority === 'high');
-        default:
-            return tasks;
-    }
+    return tasks.filter(task => {
+        const matchesStatus =
+            filterState.status === 'all' ||
+            (filterState.status === 'active' && !task.completed) ||
+            (filterState.status === 'completed' && task.completed);
+
+        const matchesPriority = filterState.priorities.has(task.priority);
+
+        return matchesStatus && matchesPriority;
+    });
 }
 
 // 統計情報の更新

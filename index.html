@@ -35,10 +35,22 @@
         </div>
 
         <div class="filters">
-            <button class="filter-btn active" data-filter="all">すべて</button>
-            <button class="filter-btn" data-filter="active">未完了</button>
-            <button class="filter-btn" data-filter="completed">完了</button>
-            <button class="filter-btn" data-filter="high">高優先度</button>
+            <div class="filter-group">
+                <div class="filter-label">状態</div>
+                <div class="filter-chips">
+                    <button class="filter-btn active" data-status="all">すべて</button>
+                    <button class="filter-btn" data-status="active">未完了</button>
+                    <button class="filter-btn" data-status="completed">完了</button>
+                </div>
+            </div>
+            <div class="filter-group">
+                <div class="filter-label">優先度</div>
+                <div class="filter-chips">
+                    <button class="filter-btn active" data-priority="high">高</button>
+                    <button class="filter-btn active" data-priority="medium">中</button>
+                    <button class="filter-btn active" data-priority="low">低</button>
+                </div>
+            </div>
         </div>
 
         <ul id="taskList" class="task-list">
